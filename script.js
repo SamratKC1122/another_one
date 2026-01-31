@@ -1,51 +1,46 @@
-const holes = document.querySelectorAll(".hole");
-const scoreDisplay = document.getElementById("score");
-const popSound = document.getElementById("popSound");
+const game = document.getElementById("game");
+const scoreText = document.getElementById("score");
 
 let score = 0;
-let gameSpeed = 900;
 
 const faces = [
-  "kp_oli.png",
-  "deuva.png",
-  "prachanda.png"
+  "assets/oli.jpg",
+  "assets/deuva.jpg",
+  "assets/prachanda.jpg"
 ];
 
-function randomHole() {
-  return holes[Math.floor(Math.random() * holes.length)];
+// Create 9 holes
+for(let i=0;i<9;i++){
+  const hole = document.createElement("div");
+  hole.className = "hole";
+  game.appendChild(hole);
 }
 
-function randomFace() {
-  return faces[Math.floor(Math.random() * faces.length)];
-}
+function spawnFace(){
+  const holes = document.querySelectorAll(".hole");
 
-function showFace() {
-  const hole = randomHole();
-  hole.innerHTML = "";
+  holes.forEach(hole => hole.innerHTML = "");
 
+  const randomHole = holes[Math.floor(Math.random()*holes.length)];
   const img = document.createElement("img");
-  img.src = randomFace();
-  hole.appendChild(img);
 
-  setTimeout(() => {
-    img.classList.add("show");
-  }, 10);
+  img.src = faces[Math.floor(Math.random()*faces.length)];
+  img.className = "face";
 
   img.onclick = () => {
     score++;
-    scoreDisplay.textContent = "Score: " + score;
-    popSound.currentTime = 0;
-    popSound.play();
+    scoreText.innerText = score;
     img.remove();
   };
 
-  setTimeout(() => {
-    if (hole.contains(img)) img.remove();
-  }, gameSpeed);
+  randomHole.appendChild(img);
+
+  setTimeout(()=>{
+    if(img.parentNode){
+      img.remove();
+    }
+  },800);
 }
 
-setInterval(showFace, gameSpeed);
+setInterval(spawnFace,1000);
 
-setInterval(() => {
-  if (gameSpeed > 300) gameSpeed -= 50;
-}, 5000);
