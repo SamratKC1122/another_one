@@ -6,9 +6,9 @@ let score = 0;
 let gameSpeed = 900;
 
 const faces = [
-  "assets/oli.png",
-  "assets/deuva.png",
-  "assets/prachanda.png"
+  "kp_oli.png",
+  "deuva.png",
+  "prachanda.png"
 ];
 
 function randomHole() {
